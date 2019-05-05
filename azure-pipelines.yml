@@ -4,20 +4,26 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
 trigger:
-- master
+  - master
 
 pool:
   vmImage: 'ubuntu-16.04'
 
 variables:
-  solution: 'src/api/Azure.Starter.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet restore $(solution)
-  displayName: 'dotnet restore'
+  - script: dotnet restore
+    displayName: 'dotnet restore'
 
-- script: dotnet build $(solution) -c $(buildConfiguration) --no-restore
-  displayName: 'dotnet build'
-- task: PublishBuildArtifacts@1
+  - script: dotnet build -c $(buildConfiguration) --no-restore
+    displayName: 'dotnet build'
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: '$(Build.BinariesDirectory)'
+      includeRootFolder: true
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+      replaceExistingArchive: true
+  - task: PublishBuildArtifacts@1
