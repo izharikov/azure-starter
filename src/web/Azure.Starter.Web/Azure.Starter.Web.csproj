@@ -10,4 +10,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\core\Azure.Starter.Core\Azure.Starter.Core.csproj" />
+    <ProjectReference Include="..\..\database\Azure.Starter.Database\Azure.Starter.Database.csproj" />
+  </ItemGroup>
+
 </Project>

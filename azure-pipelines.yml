@@ -14,6 +14,9 @@ pool:
 variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  efProject: 'src\database\Azure.Starter.Database\Azure.Starter.Database.csproj'
+  efStartupProject: 'src\web\Azure.Starter.Web\Azure.Starter.Web.csproj'
+  scriptName: 'migrations.sql'
 
 steps:
   - script: dotnet restore
@@ -27,4 +30,6 @@ steps:
       publishWebProjects: False
       arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       zipAfterPublish: True
+  - script: dotnet ef migrations script -o $(Build.ArtifactStagingDirectory)\SQL\$(scriptName) -i -p $(efProject) -s $(efStartupProject) --no-build
+    displayName: 'Generate Migrations Script'
   - task: PublishBuildArtifacts@1
