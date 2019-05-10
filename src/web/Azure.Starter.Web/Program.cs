@@ -19,6 +19,10 @@ namespace Azure.Starter.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging(logging =>
+                {
+                    logging.AddAzureWebAppDiagnostics();
+                })
                 .UseStartup<Startup>();
     }
 }
