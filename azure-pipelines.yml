@@ -33,6 +33,6 @@ steps:
       publishWebProjects: False
       arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       zipAfterPublish: True
-  - script: dotnet ef migrations script -o $(Build.ArtifactStagingDirectory)/SQL/$(scriptName) -i -p $(efProject) -s $(efStartupProject) --no-build
+  - script: dotnet ef migrations script -o $(Build.ArtifactStagingDirectory)/SQL/$(scriptName) -i -p $(efProject) -s $(efStartupProject) --no-build --configuration $(BuildConfiguration)
     displayName: 'Generate Migrations Script'
   - task: PublishBuildArtifacts@1
