@@ -14,11 +14,14 @@ pool:
 variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  efProject: 'src\database\Azure.Starter.Database\Azure.Starter.Database.csproj'
-  efStartupProject: 'src\web\Azure.Starter.Web\Azure.Starter.Web.csproj'
+  efProject: 'src/database/Azure.Starter.Database/Azure.Starter.Database.csproj'
+  efStartupProject: 'src/web/Azure.Starter.Web/Azure.Starter.Web.csproj'
   scriptName: 'migrations.sql'
 
 steps:
+  - task: DotNetCoreInstaller@0
+    inputs:
+      version: '2.2.203'
   - script: dotnet restore
     displayName: 'dotnet restore'
 
@@ -30,6 +33,6 @@ steps:
       publishWebProjects: False
       arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       zipAfterPublish: True
-  - script: dotnet ef migrations script -o $(Build.ArtifactStagingDirectory)\SQL\$(scriptName) -i -p $(efProject) -s $(efStartupProject) --no-build
+  - script: dotnet ef migrations script -o $(Build.ArtifactStagingDirectory)/SQL/$(scriptName) -i -p $(efProject) -s $(efStartupProject) --no-build
     displayName: 'Generate Migrations Script'
   - task: PublishBuildArtifacts@1
